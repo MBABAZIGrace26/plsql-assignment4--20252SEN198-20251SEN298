@@ -6,7 +6,7 @@ Instructor: Eric Maniraguha
 ## Group members
  Names                            Student ID 
 MBABAZI Grace                     20252SEN198
-UHIRIWE Benjamin
+UHIRIWE Benjamin                   20251SEN298
 
 
 ## Application description
