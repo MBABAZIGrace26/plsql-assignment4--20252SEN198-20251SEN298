@@ -1,0 +1,43 @@
+SET SERVEROUTPUT ON
+DECLARE
+  v          NUMBER;
+  e_custom   EXCEPTION;                       -- user-defined exception
+BEGIN
+  BEGIN
+    SELECT student_id INTO v FROM students WHERE student_id = 9999;
+  EXCEPTION WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('1) NO_DATA_FOUND caught');
+  END;
+
+  BEGIN
+    SELECT student_id INTO v FROM students WHERE full_name = 'Jean Claude Uwimana';
+  EXCEPTION WHEN TOO_MANY_ROWS THEN
+    DBMS_OUTPUT.PUT_LINE('2) TOO_MANY_ROWS caught');
+  END;
+
+  BEGIN
+    INSERT INTO students VALUES (1001, 'Copy', 'copy@auca.ac.rw', 10, 'ACTIVE');
+  EXCEPTION WHEN DUP_VAL_ON_INDEX THEN
+    DBMS_OUTPUT.PUT_LINE('3) DUP_VAL_ON_INDEX caught');
+  END;
+
+  BEGIN
+    v := 1 / 0;
+  EXCEPTION WHEN ZERO_DIVIDE THEN
+    DBMS_OUTPUT.PUT_LINE('4) ZERO_DIVIDE caught');
+  END;
+
+  BEGIN
+    RAISE e_custom;
+  EXCEPTION WHEN e_custom THEN
+    DBMS_OUTPUT.PUT_LINE('5) user-defined exception caught');
+  END;
+
+  BEGIN
+    RAISE_APPLICATION_ERROR(-20999, 'Custom application error');
+  EXCEPTION WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('6) ' || SQLERRM);
+  END;
+END;
+/
+ROLLBACK;
